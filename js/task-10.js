@@ -1,30 +1,31 @@
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
-//
-// Напиши скрипт создания и очистки коллекции элементов. Пользователь вводит количество элементов в input и нажимает кнопку Создать, после чего рендерится коллекция. При нажатии на кнопку Очистить, коллекция элементов очищается.
 
-// Создай функцию createBoxes(amount), которая принимает один параметр - число. Функция создает столько <div>, сколько указано в amount и добавляет их в div#boxes.
-
-// Размеры самого первого <div> - 30px на 30px.
-// Каждый элемент после первого, должен быть шире и выше предыдущего на 10px.
-// Все элементы должены иметь случайный цвет фона в формате HEX. Используй готовую функцию getRandomHexColor для получения цвета.
-// function getRandomHexColor() {
-//   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-// }
-// Создай функцию destroyBoxes(), которая очищает содержимое div#boxes, тем самым удаляя все созданные элементы.
 const createBtnEl = document.querySelector('button[data-create]');
+const destroyBtnEl = document.querySelector('button[data-destroy]');
 const containerBoxes = document.querySelector('#boxes');
-// console.log(createBtnEl);
+
 createBtnEl.addEventListener('click', onCreateBtn);
+let counterValue = 0;
 function onCreateBtn(e) {
+  counterValue += 1;
+
   const amount = Number(e.currentTarget.previousElementSibling.value);
-  // createBoxes(amount);
-  createBoxes();
+  createBoxes(amount);
 }
 
-function createBoxes() {
-  const num = 30;
-  const box = `<div width="${num}" height="${num}" style="background-color: ${getRandomHexColor()}">Ghbn</div>`;
-  containerBoxes.insertAdjacentHTML('afterbegin', box);
+function createBoxes(amount) {
+  let num = 20 * counterValue;
+  for (let i = 1; i <= amount; i += 1) {
+    num += 10;
+    const box = `<div style="background-color: ${getRandomHexColor()}; height: ${num}px; width: ${num}px;"></div>`;
+    containerBoxes.insertAdjacentHTML('afterbegin', box);
+  }
+}
+
+destroyBtnEl.addEventListener('click', destroyBoxes);
+function destroyBoxes() {
+  counterValue = 0;
+  containerBoxes.innerHTML = '';
 }
